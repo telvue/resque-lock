@@ -55,6 +55,6 @@ class LockTest < Test::Unit::TestCase
 
     sleep 3
     Resque.enqueue(Job)
-    assert_equal 2, Resque.redis.llen('queue:lock_test')
+    assert_equal 1, Resque.redis.llen('queue:lock_test')
   end
 end
