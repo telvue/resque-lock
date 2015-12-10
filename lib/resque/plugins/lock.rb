@@ -70,8 +70,9 @@ module Resque
         # (we cannot acquire the lock during the timeout period)
         return false if now <= Resque.redis.get(key).to_i
 
-        # otherwise set the timeout and ensure that no other worker has
-        # acquired the lock
+        # otherwise dequeue the job holding the current lock and reset the
+        # timeout to ensure that no other worker has acquired the lock
+        Resque.dequeue(self, *args)
         now > Resque.redis.getset(key, timeout).to_i
       end
 
