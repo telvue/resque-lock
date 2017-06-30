@@ -87,7 +87,7 @@ module Resque
       end
 
       # Some errors may not be capture by above `ensure'. Handle it here.
-      def on_failure_lock
+      def on_failure_lock(exception, *args)
         Resque.redis.del(lock(*args))
       end
     end
